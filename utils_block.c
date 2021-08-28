@@ -32,3 +32,11 @@ int	clearBlock(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y)
 	return (0);
 
 }
+
+void	rotateBlock(t_cell src[BLOCK_SIZE][BLOCK_SIZE], t_cell dst[BLOCK_SIZE][BLOCK_SIZE])
+{
+	int	i, j;
+	for (j = 0; j < BLOCK_SIZE; j++)
+		for (i = 0; i < BLOCK_SIZE; i++)
+			dst[i][BLOCK_SIZE - 1 - j] = src[j][i];
+}

@@ -70,6 +70,7 @@ int		clearCell(t_cell c, int x, int y);
 void 	copyBlock(t_cell src[BLOCK_SIZE][BLOCK_SIZE], t_cell dst[BLOCK_SIZE][BLOCK_SIZE]);
 int		printBlock(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
 int		clearBlock(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
+void	rotateBlock(t_cell src[BLOCK_SIZE][BLOCK_SIZE], t_cell dst[BLOCK_SIZE][BLOCK_SIZE]);
 /*
 **manipulate.c
 **/

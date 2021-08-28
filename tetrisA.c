@@ -1,5 +1,7 @@
 #include "tetris.h"
 
+t_cell	map[HEIGHT][WIDTH];
+
 t_cell	block_type[BLOCK_NUM][BLOCK_SIZE][BLOCK_SIZE] =
 {
 	'\0', RED, BLACK, NORMAL,
@@ -124,59 +126,80 @@ t_cell	block_type[BLOCK_NUM][BLOCK_SIZE][BLOCK_SIZE] =
 
 int main()
 {
-	int i, j, c, count;
-	t_cell	block[BLOCK_SIZE][BLOCK_SIZE];
-	copyBlock(block_type[2], block);
-	initialize();
-	i = 0;
-	j = 0;
-	printBlock(block, i, j);
-	for(j = 0;j < HEIGHT; j++)
-	{
-		printBlock(block, i, j);
-		wait(500);
-		clearBlock(block, i, j);
+	int				x, y, c, prex, prey, t;
+	t_cell			block[BLOCK_SIZE][BLOCK_SIZE], block_tmp[BLOCK_SIZE][BLOCK_SIZE];
+	struct timeval	start_time, now_time, pre_time;
+	double			duration, thold;
 
-		if (kbhit() != 0)
+	t = rand() % BLOCK_NUM;
+	copyBlock(block_type[t], block);
+	initialize();
+	x = 5;
+	y = 0;
+	thold = 0.5;
+	printBlock(block, x, y);
+	gettimeofday(&start_time, NULL);
+	pre_time = start_time;
+	for( ; ; )
+	{
+		prex = x;
+		prey = y;
+
+		if (kbhit())
 		{
-			clearBlock(block, i, j);
 			c = getch();
 			if (c == 0x1b)
 			{
 				c = getch();
-				if (c = 0x5b)
+				if (c == 0x5b)
 				{
 					c = getch();
 					switch(c)
 					{
 						case 0x41: //UP
-							j--;
+							rotateBlock(block, block_tmp);
+							clearBlock(block, x, y);
+							printBlock(block_tmp, x, y);
+							copyBlock(block_tmp, block);
 							break;
 						case 0x42: //DOWN
-							j++;
+							y++;
 							break;
 						case 0x43: //RIGHT
-							i++;
+							x++;
 							break;
 						case 0x44: //LEFT
-							i--;
+							x--;
 							break;
 					}
 				}
-			}
-			else if (c == 0x61)
-			{
-				clearBlock(block, i, j);
-				i = 5;
-				j = 10;
 			}
 			else
 			{
 				reset();
 				exit(1);
 			}
-			count++;
-			printBlock(block, i, j);
+		}
+		gettimeofday(&now_time, NULL);
+		duration = now_time.tv_sec - pre_time.tv_sec
+					+ (now_time.tv_usec - pre_time.tv_usec)/1000000.0;
+		if (duration > thold)
+		{
+			pre_time = now_time;
+			if (y < HEIGHT)
+				y++;
+			else
+			{
+				y = 0;
+				x = 5;
+				t = rand() % BLOCK_NUM;
+				copyBlock(block_type[t], block);
+			}
+		}
+		if (prex != x || prey != y)
+		{
+			clearBlock(block, prex, prey);
+			printBlock(block, x, y);
 		}
 	}
 	reset();
