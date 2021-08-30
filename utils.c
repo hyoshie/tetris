@@ -10,12 +10,17 @@ int wait(int msec)
 */
 void	initialize(void)
 {
+	int		x, y;
+	t_cell	a = {'\0', BLACK, BLACK, NORMAL};
 	tinit();
 	setBackColor(BLACK);
 	setCharColor(WHITE);
 	setAttribute(NORMAL);
 	clearScreen();
 	cursolOff();
+	for (y = 0; y < HEIGHT; y++)
+		for (x = 0; x < HEIGHT; x++)
+			map[y][x] = a;
 }
 
 void	reset(void)
@@ -63,5 +68,12 @@ int	clearCell(t_cell c, int x, int y)
 	setAttribute(NORMAL);
 	printf("  ");
 	fflush(stdout);
+	return (0);
+}
+
+int	checkCell(t_cell a, int x, int y)
+{
+	if (checkRange(a, x, y) || map[y][x].c != '\0')
+		return (-1);
 	return (0);
 }

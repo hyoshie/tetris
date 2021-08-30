@@ -1,7 +1,5 @@
 #include "tetris.h"
 
-t_cell	map[HEIGHT][WIDTH];
-
 t_cell	block_type[BLOCK_NUM][BLOCK_SIZE][BLOCK_SIZE] =
 {
 	'\0', RED, BLACK, NORMAL,
@@ -163,13 +161,16 @@ int main()
 							copyBlock(block_tmp, block);
 							break;
 						case 0x42: //DOWN
-							y++;
+							while (checkMap(block, x, y + 1) == 0)
+								y++;
 							break;
 						case 0x43: //RIGHT
-							x++;
+							if (checkMap(block, x + 1, y) == 0)
+								x++;
 							break;
 						case 0x44: //LEFT
-							x--;
+							if (checkMap(block, x - 1, y) == 0)
+								x--;
 							break;
 					}
 				}
@@ -186,14 +187,24 @@ int main()
 		if (duration > thold)
 		{
 			pre_time = now_time;
-			if (y < HEIGHT)
+			if (checkMap(block, x, y + 1) == 0)
 				y++;
 			else
 			{
-				y = 0;
+				if (y == 0)
+				{
+					reset();
+					exit(1);
+				}
+				putMap(block, x, y);
+				deleteMap();
 				x = 5;
+				y = 0;
+				prex = 5;
+				prey = 0;
 				t = rand() % BLOCK_NUM;
 				copyBlock(block_type[t], block);
+				printBlock(block, x, y);
 			}
 		}
 		if (prex != x || prey != y)

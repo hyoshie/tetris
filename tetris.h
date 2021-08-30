@@ -55,6 +55,8 @@ typedef struct s_cell
 	int		attribute;
 }	t_cell;
 
+t_cell	map[HEIGHT][WIDTH];
+
 /*
 **utils.c
 */
@@ -64,6 +66,7 @@ void	reset(void);
 int		checkRange(t_cell a, int x, int y);
 int		printCell(t_cell c, int x, int y);
 int		clearCell(t_cell c, int x, int y);
+int		checkCell(t_cell a, int x, int y);
 /*
 **utils_block.c
 */
@@ -71,6 +74,15 @@ void 	copyBlock(t_cell src[BLOCK_SIZE][BLOCK_SIZE], t_cell dst[BLOCK_SIZE][BLOCK
 int		printBlock(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
 int		clearBlock(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
 void	rotateBlock(t_cell src[BLOCK_SIZE][BLOCK_SIZE], t_cell dst[BLOCK_SIZE][BLOCK_SIZE]);
+/*
+**utils_map.c
+*/
+int		checkMap(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
+void	putMap(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
+void	printMap(void);
+int		checkLine(int y);
+void	deleteLine(int ys);
+void	deleteMap(void);
 /*
 **manipulate.c
 **/
