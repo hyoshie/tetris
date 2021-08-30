@@ -20,7 +20,7 @@ struct  termios otty, ntty;
 # define cursolOn() printf("\033[?25h")
 # define cursolOff() printf("\033[?25l")
 # define WIDTH 10
-# define HEIGHT 20
+# define HEIGHT 24
 # define BLOCK_SIZE 4
 # define BLOCK_NUM 7
 /*
@@ -60,7 +60,7 @@ t_cell	map[HEIGHT][WIDTH];
 /*
 **utils.c
 */
-int		wait(int msec);
+// int		wait(int msec);
 void	initialize(void);
 void	reset(void);
 int		checkRange(t_cell a, int x, int y);
@@ -82,12 +82,15 @@ void	putMap(t_cell block[BLOCK_SIZE][BLOCK_SIZE], int x, int y);
 void	printMap(void);
 int		checkLine(int y);
 void	deleteLine(int ys);
-void	deleteMap(void);
+int		deleteMap(void);
 /*
 **manipulate.c
 **/
 int		kbhit(void);
 int		getch(void);
 int		tinit(void);
+
+void	printNext(int type);
+void	printscore(int score);
 
 #endif

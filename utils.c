@@ -1,10 +1,10 @@
 #include "tetris.h"
 
-int wait(int msec)
-{
-	struct timespec r = {0, msec * 1000L * 1000L};
-	return (nanosleep( &r, NULL ));
-}
+// int wait(int msec)
+// {
+// 	struct timespec r = {0, msec * 1000L * 1000L};
+// 	return (nanosleep( &r, NULL ));
+// }
 /*
 **difference between initialize and reset is cursol On/Off
 */
@@ -76,4 +76,13 @@ int	checkCell(t_cell a, int x, int y)
 	if (checkRange(a, x, y) || map[y][x].c != '\0')
 		return (-1);
 	return (0);
+}
+
+void	printscore(int score)
+{
+	setPosition(WIDTH, 0);
+	setAttribute(NORMAL);
+	setBackColor(WHITE);
+	setCharColor(BLACK);
+	printf("Score : %d", score);
 }

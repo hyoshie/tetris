@@ -58,16 +58,21 @@ void	deleteLine(int ys)
 	for (y = ys; y > 0; y--)
 		for (x = 0; x < WIDTH; x++)
 			map[y][x] = map[y - 1][x];
-	setBackColor(BLACK);
 	clearScreen();
+	setBackColor(BLACK);
 	printMap();
 }
 
-void	deleteMap(void)
+int	deleteMap(void)
 {
-	int	y;
+	int	y, count;
 
+	count = 0;
 	for (y = 0; y < HEIGHT; y++)
 		if (checkLine(y) == 0)
+		{
 			deleteLine(y);
+			count++;
+		}
+	return (count);
 }
